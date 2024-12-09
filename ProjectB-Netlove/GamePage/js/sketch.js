@@ -27,6 +27,7 @@ let doesntcareIMG;
 let foodIMG;
 let happyIMG;
 let sleepIMG;
+let isHungry = false;
 
 function preload() {
   music = loadSound("../sound/BGM.wav");
@@ -54,7 +55,7 @@ function setup() {
     }
   }
 
-  girl = new UpdatedStatus(1150, 300);
+  girl = new Girl(1150, 300);
 }
 
 function draw() {
@@ -97,6 +98,12 @@ function draw() {
 
   //options on screen
   let optionChoice = int (clickCount % 4);
+  textSize(36);
+  text("👋", width/2 - 180, 350);
+  text("🍪", width/2 - 60, 350);
+  text("🐛", width/2 + 60, 350);
+  text("😴", width/2 + 180, 350);
+  textSize(64);
   if(optionChoice == 1){
     text("👋", width/2 - 180, 350);
   }
@@ -117,11 +124,13 @@ function draw() {
   fill(255);
   // rect(460, 130, 400, 160)
 
+  
   //moodIcon
+  textSize(30);
   text(moodIcon, 310, 200);
 
   //heartIcon
-  textSize(30);
+  
   text(heartIcon, 360, 150);
 
   //heart default draw
@@ -137,13 +146,19 @@ function draw() {
     girl.finalWin();
   }
 
+  if(isHungry){
+    fill(0);
+    textSize(30);
+    text("need🍪!!", width/2, 50);
+  }
+
   girl.update();
   girl.display();
 
 }
 
 function mousePressed() {
-  //5seconds no twice click mechanic
+  //Xseconds no twice click mechanic
   let currentTime = millis();
   let timeSinceLastClick = currentTime - timeOfLastClick;
   if(timeSinceLastClick > 1500){
@@ -183,6 +198,7 @@ function mousePressed() {
     //cookie
     if(optionChoice == 2){
       cookieChoose = true;
+      isHungry = false;
       girl.eatFood();
       let increase = random(["mood","heart"]);
       if (increase == "mood" && mood < 5){
@@ -242,11 +258,11 @@ function mousePressed() {
   if (choiceCount >= 3) {
     if (!cookieChoose) {
       heart --; 
+      isHungry = true;
+      
       updateHeartIcon();
-      // fill(0);
-      // textSize(30);
-      // text("hungry!!🍪", 0, 0);
-      console.log("need cookie!");
+ 
+      // console.log("need cookie!");
     }
 
     choiceCount = 0;
@@ -286,7 +302,7 @@ function updateHeartIcon(){
   }
 }
 
-class UpdatedStatus{
+class Girl{
   constructor(startX, startY){
     this.x = startX;
     this.y = startY;
@@ -304,6 +320,10 @@ class UpdatedStatus{
   
   happy(){
     this.displayImg = happyIMG;
+  }
+
+  needCookie(){
+    this.displayImg = doesntcareIMG;
   }
 
   eatFood(){
@@ -332,6 +352,7 @@ class UpdatedStatus{
 
   display(){
     scale(0.5);
+    //image(defaultIMG, this.x, this.y);
     image(this.displayImg, this.x, this.y);    
   }
 }
