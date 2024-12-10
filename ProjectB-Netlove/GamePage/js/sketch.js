@@ -1,6 +1,4 @@
 let heartSize = 40; 
-let gridCols = 30; 
-let gridRows = 15; 
 let hearts = []; 
 let clickCount = 0; //arrow
 let choiceCount = 0; // tick
@@ -49,11 +47,6 @@ function preload() {
 function setup() {
   let canvas = createCanvas(1200, 600);
   canvas.parent("p5-canvas-container");
-  for (let row = 0; row < 15; row++) {
-    for (let col = 0; col < 30; col++) {
-      hearts.push({x: col * heartSize, y: row * heartSize, symbol: "♡"});
-    }
-  }
 
   girl = new Girl(1150, 300);
 }
@@ -61,11 +54,8 @@ function setup() {
 function draw() {
   background(139, 134, 200);
   fill(100);
-  // for (let i = 0; i < hearts.length; i++) {
     textSize(heartSize);
     textAlign(CENTER, CENTER);
-  //   text(hearts[i].symbol, hearts[i].x + heartSize / 2, hearts[i].y + heartSize / 2);
-  // }
 
   //structure
   fill(150);;
